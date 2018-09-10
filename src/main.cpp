@@ -26,11 +26,9 @@ void Render()
 	float cy = 100;
 	float cz = 0;
 	float r = 80;
-
+	glBegin(GL_TRIANGLES);
 	for(int i=0;i<360;++i)
 	{
-		glBegin(GL_TRIANGLES);
-
 		float x = (float)cos((double)i*M_PI/180)*r + cx;
 		float y = (float)sin((double)i*M_PI/180)*r + cy;
 
@@ -41,10 +39,8 @@ void Render()
 		glVertex3f(x,y,cz);
 		glVertex3f(x1,y1,cz);
 
-		glEnd();
-
 	}
-
+	glEnd();
 
 	/*
 	float centerx = 100,centery = 100, centerz = 0;

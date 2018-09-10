@@ -40,20 +40,22 @@ void Render()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3,GL_FLOAT,0,cir);
 	glDrawArrays(GL_TRIANGLE_FAN,0,362);
-
-
-
 }
 
 void myDisplay(void)
 {
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0,0,0,1);
+	glClearColor(1,0,0,1);
+	glClear(GL_COLOR_BUFFER_BIT);
 	glViewport(0,0,_width,_height);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0,_width,_height,0,-100,100);
 
-	Render();
-
+	glBegin(GL_LINES);
+	glVertex3f(0,0,0);
+	glVertex3f(100,100,0);
+	glEnd();
+	//Render();
 	glutSwapBuffers();
 }
 

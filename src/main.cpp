@@ -51,9 +51,10 @@ void myDisplay(void)
 	glLoadIdentity();
 	glOrtho(0,_width,_height,0,-100,100);
 
-	glBegin(GL_LINES);
-	glVertex3f(0,0,0);
-	glVertex3f(100,100,0);
+	glBegin(GL_TRIANGLES);
+	glVertex3f(_width*0.5f,0,0);
+	glVertex3f(_width,_height,0);
+	glVertex3f(0,_height,0);
 	glEnd();
 	//Render();
 	glutSwapBuffers();

@@ -15,6 +15,8 @@ typedef struct float3{
 	float x,y,z;
 }float3_t;
 
+float3_t _circle[360*3];
+
 void Render()
 {
 	glMatrixMode(GL_PROJECTION);
@@ -26,21 +28,25 @@ void Render()
 	float cy = 100;
 	float cz = 0;
 	float r = 80;
-	glBegin(GL_TRIANGLES);
+
 	for(int i=0;i<360;++i)
 	{
-		float x = (float)cos((double)i*M_PI/180)*r + cx;
-		float y = (float)sin((double)i*M_PI/180)*r + cy;
+		_circle[i*3 + 0].x = cx;
+		_circle[i*3 + 0].y = cy;
+		_circle[i*3 + 0].z = cz;
 
-		float x1 = (float)cos((double)(i+1)*M_PI/180)*r + cx;
-		float y1 = (float)sin((double)(i+1)*M_PI/180)*r + cy;
+		_circle[i*3 + 1].x = (float)cos((double)i*M_PI/180)*r + cx;
+		_circle[i*3 + 1].y = (float)sin((double)i*M_PI/180)*r + cy;
+		_circle[i*3 + 1].z = cz;
 
-		glVertex3f(cx,cy,cz);
-		glVertex3f(x,y,cz);
-		glVertex3f(x1,y1,cz);
-
+		_circle[i*3 + 2].x = (float)cos((double)(i+1)*M_PI/180)*r + cx;
+		_circle[i*3 + 2].y = (float)sin((double)(i+1)*M_PI/180)*r + cy;
+		_circle[i*3 + 2].z = cz;
 	}
-	glEnd();
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3,GL_FLOAT,0,_circle);
+	glDrawArrays(GL_TRIANGLES,0,360*3);
 
 	/*
 	float centerx = 100,centery = 100, centerz = 0;

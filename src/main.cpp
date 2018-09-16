@@ -40,15 +40,46 @@ void Render()
 
 	Vertex_t vert[]=
 	{
-			{0.5f,	0,		-1},
-			{0.2f,	0.3,	-1},
-			{0.8f,	0.3,	-1},
+			{ -1.0f,-1.0f,  1.0f },
+			{ 1.0f, -1.0f,  1.0f },
+			{ 1.0f, 1.0f,   1.0f },
+			{ -1.0f, 1.0f,  1.0f },
+
+			{ -1.0f,-1.0f,  -1.0f },
+			{ -1.0f, 1.0f,  -1.0f },
+			{ 1.0f, 1.0f,   -1.0f },
+			{ 1.0f,-1.0f,   -1.0f },
+
+			{ -1.0f, 1.0f,  -1.0f },
+			{ -1.0f, 1.0f,  1.0f },
+			{ 1.0f, 1.0f,   1.0f },
+			{ 1.0f, 1.0f,   -1.0f },
+
+			{ -1.0f,-1.0f,  -1.0f },
+			{ 1.0f,-1.0f,   -1.0f },
+			{ 1.0f,-1.0f,   1.0f  },
+			{ -1.0f,-1.0f,  1.0f  },
+
+			{  1.0f,-1.0f,  -1.0f },
+			{  1.0f, 1.0f,  -1.0f },
+			{  1.0f, 1.0f,  1.0f  },
+			{  1.0f,-1.0f,  1.0f  },
+
+			{ -1.0f,-1.0f,  -1.0f },
+			{ -1.0f,-1.0f,  1.0f },
+			{ -1.0f, 1.0f,  1.0f },
+			{ -1.0f, 1.0f,  -1.0f }
 	};
+
+    for (int i = 0 ;i < sizeof(vert) /sizeof(vert[0]); ++ i )
+    {
+    	vert[i].z   -=  5;
+    }
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	//glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3,GL_FLOAT,sizeof(Vertex_t),vert);
-	glDrawArrays(GL_TRIANGLES,0,3);
+	glDrawArrays(GL_QUADS,0,24);
 }
 
 void myDisplay(void)

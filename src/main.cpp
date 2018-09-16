@@ -27,6 +27,8 @@ void SamplerDrawPixel()
 	}
 }
 
+static float _angle = 0;
+
 void Render()
 {
 	SamplerDrawPixel();
@@ -72,11 +74,15 @@ void Render()
 
     glMatrixMode(GL_MODELVIEW);
 
-    glLoadIdentity();
-    glTranslatef(3,-3,-10);
+    //glLoadIdentity();
+    glTranslatef(1,1,-5);
 
-    glScalef(1,1,2);
+    //glScalef(1,1,2);
 
+printf("11111111111111\n");
+   // _angle += 1;
+    //glRotatef(_angle,1,0,0);
+#if 1
     glEnable(GL_DEPTH_TEST);
 
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -84,7 +90,7 @@ void Render()
 	glVertexPointer(3,GL_FLOAT,sizeof(Vertex_t),&vert[0].x);
 	glColorPointer(4,GL_UNSIGNED_BYTE,sizeof(Vertex_t),vert);
 	glDrawArrays(GL_QUADS,0,24);
-
+#endif
 }
 
 void myDisplay(void)
@@ -108,13 +114,9 @@ int main(int argc, char *argv[])
     glutInitWindowSize(_width, _height);
     glutCreateWindow("123456789");    // 改了窗口标题
 
-
-
-
-
-
-
+    glutIdleFunc(&myDisplay);
     glutDisplayFunc(&myDisplay);
+
     glutMainLoop();
     return 0;
 }

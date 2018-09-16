@@ -23,6 +23,7 @@ void Render()
 
 	glOrtho(0,_width,_height,0,-100,100);
 
+	glColor3f(1,0,1);
 	float3_t rect[]=
 	{
 			{10		,10,	0,	1,	0,	0},
@@ -30,12 +31,12 @@ void Render()
 			{10		,110,	0,	0,	0,	1},
 			{110	,110,	0,	1,	0,	0},
 	};
-	glColor3f(1,0,1);
+
 	glEnableClientState(GL_VERTEX_ARRAY);
-	//glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3,GL_FLOAT,sizeof(float3_t),&rect[0].x);
-	//glColorPointer(3,GL_FLOAT,sizeof(float3_t),&rect[0].r);
-	glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+	glColorPointer(3,GL_FLOAT,sizeof(float3_t),&rect[0].r);
+	glDrawArrays(GL_LINES,0,4);
 
 
 }

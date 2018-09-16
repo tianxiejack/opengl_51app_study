@@ -15,8 +15,6 @@ typedef struct float3{
 	float x,y,z;
 }float3_t;
 
-float3_t _circle[362];
-
 void Render()
 {
 	glMatrixMode(GL_PROJECTION);
@@ -24,51 +22,18 @@ void Render()
 
 	glOrtho(0,_width,_height,0,-100,100);
 
-	float cx = 100;
-	float cy = 100;
-	float cz = 0;
-	float r = 80;
-
-	_circle[0].x = cx;
-	_circle[0].y = cy;
-	_circle[0].z = cz;
-
-	for(int i=1;i<362;++i)
+	float3_t rect[]=
 	{
-		_circle[i].x = (float)cos((double)i*M_PI/180)*r + cx;
-		_circle[i].y = (float)sin((double)i*M_PI/180)*r + cy;
-		_circle[i].z = cz;
-	}
+			{10,10,0},
+			{110,10,0},
+			{10,110,0},
+			{110,110,0},
+	};
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3,GL_FLOAT,0,_circle);
-	glDrawArrays(GL_TRIANGLE_FAN,0,362);
+	glVertexPointer(3,GL_FLOAT,0,rect);
+	glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
-	/*
-	float centerx = 100,centery = 100, centerz = 0;
-	float r = 80;
-
-	float3_t cir[361];
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	glOrtho(0,_width,_height,0,-100,100);
-
-	cir[0].x = centerx;
-	cir[0].y = centery;
-	cir[0].z = centerz;
-
-	for(int i =1 ;i<=361 ;i++){
-		cir[i].x = (float)cos((double)i*M_PI/180)*r + centerx;
-		cir[i].y = (float)sin((double)i*M_PI/180)*r + centery;
-		cir[i].z = centerz;
-	}
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3,GL_FLOAT,0,cir);
-	glDrawArrays(GL_TRIANGLE_FAN,0,362);
-	*/
 }
 
 void myDisplay(void)

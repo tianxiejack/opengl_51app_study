@@ -78,7 +78,7 @@ void Render()
 #if 0
     glInterleavedArrays( GL_C4UB_V3F, 0, vert );
 #else
-    //glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
@@ -93,6 +93,9 @@ void myDisplay(void)
 	glClearColor(0,0,0,1);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glViewport(0,0,_width,_height);
+
+    glClear(GL_DEPTH_BUFFER_BIT);
+
 
 	Render();
 	glutSwapBuffers();

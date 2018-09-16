@@ -4,16 +4,18 @@
 #include <GL/glut.h>
 #include "freetype.hpp"
 #include <math.h>
+#include <glu.h>
+
 FreeTypeFont*	_font;
 FreeTypeFont*	_font43;
 
-int _width = 800;
-int _height = 600;
+int _width = 1200;
+int _height = 800;
 
 typedef struct Vertex{
 
 	float x,y,z;
-	float r,g,b;
+	//float r,g,b;
 }Vertex_t;
 
 char * _pixel;
@@ -33,25 +35,20 @@ void Render()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	glOrtho(0,_width,_height,0,-100,100);
+	//glOrtho(0,_width,_height,0,-100,100);
+	gluPerspective(60,double(_width)/double(_height),0.1,1000);
 
-	glColor3f(1,0,1);
-	Vertex_t rect[]=
+	Vertex_t vert[]=
 	{
-			{10		,10,	0,	1,	0,	0},
-			{110	,10,	0,	0,	1,	0},
-			{10		,110,	0,	0,	0,	1},
-			{110	,110,	0,	1,	0,	0},
+			{0.5f,	0,		-1},
+			{0.2f,	0.3,	-1},
+			{0.8f,	0.3,	-1},
 	};
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3,GL_FLOAT,sizeof(Vertex_t),&rect[0].x);
-	glColorPointer(3,GL_FLOAT,sizeof(Vertex_t),&rect[0].r);
-	glDrawArrays(GL_LINE_LOOP,0,4);
-
-	glRasterPos2i(100,300);
-	glDrawPixels(100,200,GL_RGBA,GL_UNSIGNED_BYTE,_pixel);
+	//glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3,GL_FLOAT,sizeof(Vertex_t),vert);
+	glDrawArrays(GL_TRIANGLES,0,3);
 }
 
 void myDisplay(void)

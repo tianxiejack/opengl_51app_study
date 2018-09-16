@@ -13,6 +13,7 @@ int _height = 600;
 typedef struct float3{
 
 	float x,y,z;
+	float r,g,b;
 }float3_t;
 
 void Render()
@@ -24,21 +25,23 @@ void Render()
 
 	float3_t rect[]=
 	{
-			{10,10,0},
-			{110,10,0},
-			{10,110,0},
-			{110,110,0},
+			{10		,10,	0,	1,	0,	0},
+			{110	,10,	0,	0,	1,	0},
+			{10		,110,	0,	0,	0,	1},
+			{110	,110,	0,	1,	0,	0},
 	};
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3,GL_FLOAT,0,rect);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3,GL_FLOAT,sizeof(float3_t),&rect[0].x);
+	glColorPointer(3,GL_FLOAT,sizeof(float3_t),&rect[0].r);
 	glDrawArrays(GL_TRIANGLE_STRIP,0,4);
 
 }
 
 void myDisplay(void)
 {
-	glClearColor(1,0,0,1);
+	glClearColor(0,0,0,1);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glViewport(0,0,_width,_height);
 

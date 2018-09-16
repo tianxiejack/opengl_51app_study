@@ -75,22 +75,15 @@ void Render()
     glLoadIdentity();
     glTranslatef(3,-3,-10);
 
+    glScalef(1,1,2);
 
     glEnable(GL_DEPTH_TEST);
 
-	glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3,GL_FLOAT,sizeof(Vertex_t),&vert[0].x);
 	glColorPointer(4,GL_UNSIGNED_BYTE,sizeof(Vertex_t),vert);
 	glDrawArrays(GL_QUADS,0,24);
-
-    glLoadIdentity();
-    glTranslatef(-3,0,-10);
-    glDrawArrays(GL_QUADS,0,24);
-
-    glLoadIdentity();
-    glTranslatef(3,0,-10);
-    glDrawArrays(GL_QUADS,0,24);
 
 }
 

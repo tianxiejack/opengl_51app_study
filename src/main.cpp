@@ -36,7 +36,7 @@ void Render()
 	glEnableClientState(GL_COLOR_ARRAY);
 	glVertexPointer(3,GL_FLOAT,sizeof(float3_t),&rect[0].x);
 	glColorPointer(3,GL_FLOAT,sizeof(float3_t),&rect[0].r);
-	glDrawArrays(GL_LINE_STRIP,0,4);
+	glDrawArrays(GL_LINE_LOOP,0,4);
 
 
 }

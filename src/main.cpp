@@ -10,21 +10,33 @@ FreeTypeFont*	_font43;
 int _width = 800;
 int _height = 600;
 
-typedef struct float3{
+typedef struct Vertex{
 
 	float x,y,z;
 	float r,g,b;
-}float3_t;
+}Vertex_t;
+
+char * _pixel;
+void SamplerDrawPixel()
+{
+	_pixel = new char[100*200*4];
+	for(int i =0 ;i < 100*200*4;++i)
+	{
+		_pixel[i] = rand()%255;
+	}
+}
 
 void Render()
 {
+	SamplerDrawPixel();
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
 	glOrtho(0,_width,_height,0,-100,100);
 
 	glColor3f(1,0,1);
-	float3_t rect[]=
+	Vertex_t rect[]=
 	{
 			{10		,10,	0,	1,	0,	0},
 			{110	,10,	0,	0,	1,	0},
@@ -34,11 +46,12 @@ void Render()
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3,GL_FLOAT,sizeof(float3_t),&rect[0].x);
-	glColorPointer(3,GL_FLOAT,sizeof(float3_t),&rect[0].r);
+	glVertexPointer(3,GL_FLOAT,sizeof(Vertex_t),&rect[0].x);
+	glColorPointer(3,GL_FLOAT,sizeof(Vertex_t),&rect[0].r);
 	glDrawArrays(GL_LINE_LOOP,0,4);
 
-
+	glRasterPos2i(100,300);
+	glDrawPixels(100,200,GL_RGBA,GL_UNSIGNED_BYTE,_pixel);
 }
 
 void myDisplay(void)

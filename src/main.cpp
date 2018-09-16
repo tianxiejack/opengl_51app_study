@@ -13,9 +13,8 @@ int _width = 1200;
 int _height = 800;
 
 typedef struct Vertex{
-
+	unsigned char r,g,b,a;
 	float x,y,z;
-	//float r,g,b;
 }Vertex_t;
 
 char * _pixel;
@@ -40,46 +39,53 @@ void Render()
 
 	Vertex_t vert[]=
 	{
-			{ -1.0f,-1.0f,  1.0f },
-			{ 1.0f, -1.0f,  1.0f },
-			{ 1.0f, 1.0f,   1.0f },
-			{ -1.0f, 1.0f,  1.0f },
+            { 255,0,0,255, -1.0f,-1.0f, 1.0f },
+            { 255,0,0,255, 1.0f,-1.0f, 1.0f },
+            { 255,0,0,255, 1.0f, 1.0f, 1.0f },
+            { 255,0,0,255, -1.0f, 1.0f, 1.0f },
 
-			{ -1.0f,-1.0f,  -1.0f },
-			{ -1.0f, 1.0f,  -1.0f },
-			{ 1.0f, 1.0f,   -1.0f },
-			{ 1.0f,-1.0f,   -1.0f },
+            { 0,255,0,255, -1.0f,-1.0f,-1.0f },
+            { 0,255,0,255, -1.0f, 1.0f,-1.0f },
+            { 0,255,0,255, 1.0f, 1.0f,-1.0f },
+            { 0,255,0,255, 1.0f,-1.0f,-1.0f },
 
-			{ -1.0f, 1.0f,  -1.0f },
-			{ -1.0f, 1.0f,  1.0f },
-			{ 1.0f, 1.0f,   1.0f },
-			{ 1.0f, 1.0f,   -1.0f },
+            { 0,0,255,255, -1.0f, 1.0f,-1.0f },
+            { 0,0,255,255, -1.0f, 1.0f, 1.0f },
+            { 0,0,255,255, 1.0f, 1.0f, 1.0f },
+            { 0,0,255,255, 1.0f, 1.0f,-1.0f },
 
-			{ -1.0f,-1.0f,  -1.0f },
-			{ 1.0f,-1.0f,   -1.0f },
-			{ 1.0f,-1.0f,   1.0f  },
-			{ -1.0f,-1.0f,  1.0f  },
+            { 0,255,255,255, -1.0f,-1.0f,-1.0f },
+            { 0,255,255,255, 1.0f,-1.0f,-1.0f },
+            { 0,255,255,255, 1.0f,-1.0f, 1.0f },
+            { 0,255,255,255, -1.0f,-1.0f, 1.0f },
 
-			{  1.0f,-1.0f,  -1.0f },
-			{  1.0f, 1.0f,  -1.0f },
-			{  1.0f, 1.0f,  1.0f  },
-			{  1.0f,-1.0f,  1.0f  },
+            { 255,0,255,255, 1.0f,-1.0f,-1.0f },
+            { 255,0,255,255, 1.0f, 1.0f,-1.0f },
+            { 255,0,255,255, 1.0f, 1.0f, 1.0f },
+            { 255,0,255,255, 1.0f,-1.0f, 1.0f },
 
-			{ -1.0f,-1.0f,  -1.0f },
-			{ -1.0f,-1.0f,  1.0f },
-			{ -1.0f, 1.0f,  1.0f },
-			{ -1.0f, 1.0f,  -1.0f }
+            { 255,255,255,255, -1.0f,-1.0f,-1.0f },
+            { 255,255,255,255, -1.0f,-1.0f, 1.0f },
+            { 255,255,255,255, -1.0f, 1.0f, 1.0f },
+            { 255,255,255,255, -1.0f, 1.0f,-1.0f }
 	};
 
-    for (int i = 0 ;i < sizeof(vert) /sizeof(vert[0]); ++ i )
+    for (int i = 0 ;i < 24; ++ i )
     {
     	vert[i].z   -=  5;
     }
 
+#if 0
+    glInterleavedArrays( GL_C4UB_V3F, 0, vert );
+#else
+    //glEnable(GL_DEPTH_TEST);
+
 	glEnableClientState(GL_VERTEX_ARRAY);
-	//glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3,GL_FLOAT,sizeof(Vertex_t),vert);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glVertexPointer(3,GL_FLOAT,sizeof(Vertex_t),&vert[0].x);
+	glColorPointer(4,GL_UNSIGNED_BYTE,sizeof(Vertex_t),vert);
 	glDrawArrays(GL_QUADS,0,24);
+#endif
 }
 
 void myDisplay(void)
@@ -98,7 +104,7 @@ int main(int argc, char *argv[])
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_MULTISAMPLE); // 修改了参数为GLUT_DOUBLE
-    glutInitWindowPosition(500, 300);
+    glutInitWindowPosition(1000, 800);
     glutInitWindowSize(_width, _height);
     glutCreateWindow("123456789");    // 改了窗口标题
 

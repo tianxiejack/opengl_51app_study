@@ -13,11 +13,13 @@ int _width = 800;
 int _height = 600;
 
 typedef struct Vertex{
-	unsigned char r,g,b,a;
-	float x,y,z;
+    float x, y, z;
+    float u, v;
 }Vertex_t;
 
 char * _pixel;
+GLuint  _texture;
+
 void SamplerDrawPixel()
 {
 	_pixel = new char[100*200*4];
@@ -27,7 +29,21 @@ void SamplerDrawPixel()
 	}
 }
 
+void    onInitGL()
+ {
+     glEnable(GL_TEXTURE_2D);
+     glGenTextures(1,&_texture);
+     glBindTexture(GL_TEXTURE_2D,_texture);
+     char*   data    =   new char[128 * 128 * 4];
+     for (int i = 0 ;i < 128 * 128 * 4 ; ++ i)
+     {
+         data[i] =   rand()%255;
+     }
+     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
+     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,128,128,0,GL_RGBA,GL_UNSIGNED_BYTE,data);
 
+ }
 
 void Render()
 {
@@ -39,40 +55,17 @@ void Render()
 	//glOrtho(0,_width,_height,0,-100,100);
 	gluPerspective(60,double(_width)/double(_height),0.1,1000);
 
-	Vertex_t vert[]=
+	Vertex_t cubeVertices[]=
 	{
-            { 255,0,0,255, -1.0f,-1.0f, 1.0f },
-            { 255,0,0,255, 1.0f,-1.0f, 1.0f },
-            { 255,0,0,255, 1.0f, 1.0f, 1.0f },
-            { 255,0,0,255, -1.0f, 1.0f, 1.0f },
-
-            { 0,255,0,255, -1.0f,-1.0f,-1.0f },
-            { 0,255,0,255, -1.0f, 1.0f,-1.0f },
-            { 0,255,0,255, 1.0f, 1.0f,-1.0f },
-            { 0,255,0,255, 1.0f,-1.0f,-1.0f },
-
-            { 0,0,255,255, -1.0f, 1.0f,-1.0f },
-            { 0,0,255,255, -1.0f, 1.0f, 1.0f },
-            { 0,0,255,255, 1.0f, 1.0f, 1.0f },
-            { 0,0,255,255, 1.0f, 1.0f,-1.0f },
-
-            { 0,255,255,255, -1.0f,-1.0f,-1.0f },
-            { 0,255,255,255, 1.0f,-1.0f,-1.0f },
-            { 0,255,255,255, 1.0f,-1.0f, 1.0f },
-            { 0,255,255,255, -1.0f,-1.0f, 1.0f },
-
-            { 255,0,255,255, 1.0f,-1.0f,-1.0f },
-            { 255,0,255,255, 1.0f, 1.0f,-1.0f },
-            { 255,0,255,255, 1.0f, 1.0f, 1.0f },
-            { 255,0,255,255, 1.0f,-1.0f, 1.0f },
-
-            { 255,255,255,255, -1.0f,-1.0f,-1.0f },
-            { 255,255,255,255, -1.0f,-1.0f, 1.0f },
-            { 255,255,255,255, -1.0f, 1.0f, 1.0f },
-            { 255,255,255,255, -1.0f, 1.0f,-1.0f }
+		{  -1.0f,-1.0f, 1.0f,   0,  0 },
+		{  1.0f,-1.0f, 1.0f,    0,  1 },
+		{  1.0f, 1.0f, 1.0f,    1,  1 },
+		{ -1.0f, 1.0f, 1.0f,    1,  0 },
 	};
 
     glMatrixMode(GL_MODELVIEW);
+    glBindTexture(GL_TEXTURE_2D,_texture);
+
 
     glLoadIdentity();
     glTranslatef(-3,0,-10);
@@ -86,10 +79,14 @@ void Render()
     glEnable(GL_DEPTH_TEST);
 
     glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3,GL_FLOAT,sizeof(Vertex_t),&vert[0].x);
-	glColorPointer(4,GL_UNSIGNED_BYTE,sizeof(Vertex_t),vert);
-	glDrawArrays(GL_QUADS,0,24);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glVertexPointer(3,GL_FLOAT,         sizeof(Vertex),     &cubeVertices[0].x);
+    glTexCoordPointer(2,GL_FLOAT,       sizeof(Vertex),     &cubeVertices[0].u);
+
+    glLoadIdentity();
+    //! 产生一个矩阵
+    glTranslatef(0,0,-10);
+    glDrawArrays( GL_QUADS, 0, 4 );
 
 }
 
@@ -98,7 +95,7 @@ void myDisplay(void)
 	glClearColor(0,0,0,1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0,0,_width,_height);
-
+	onInitGL();
 
 	Render();
 	glutSwapBuffers();

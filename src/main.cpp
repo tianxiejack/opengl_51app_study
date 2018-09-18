@@ -20,6 +20,8 @@ typedef struct Vertex{
 
 char * _pixel;
 GLuint  _texture;
+GLuint  _texture1;
+GLuint  _texture2;
 
 void SamplerDrawPixel()
 {
@@ -80,6 +82,8 @@ unsigned    createTextureFromImage(const char* fileName)
  void    onInitGL()
 {
     _texture    =   createTextureFromImage("1.jpg");
+    _texture1   =   createTextureFromImage("../image/NEG_X.jpg");
+    //_texture2   =   createTextureFromImage("3.jpg");
 }
 
 void Render()
@@ -118,6 +122,12 @@ void Render()
     glLoadIdentity();
     //! 产生一个矩阵
     glTranslatef(0,0,-10);
+    glDrawArrays( GL_QUADS, 0, 4 );
+
+    glLoadIdentity();
+    //! 产生一个矩阵
+    glTranslatef(5,0,-10);
+    glBindTexture(GL_TEXTURE_2D,_texture1);
     glDrawArrays( GL_QUADS, 0, 4 );
 
 }

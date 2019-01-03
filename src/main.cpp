@@ -83,7 +83,7 @@ unsigned    createTextureFromImage(const char* fileName)
 {
     _texture    =   createTextureFromImage("1.jpg");
     _texture1   =   createTextureFromImage("../image/NEG_X.jpg");
-    //_texture2   =   createTextureFromImage("3.jpg");
+    _texture2   =   createTextureFromImage("../image/NEG_Z.jpg");
 }
 
 void Render()
@@ -96,20 +96,46 @@ void Render()
 	//glOrtho(0,_width,_height,0,-100,100);
 	gluPerspective(60,double(_width)/double(_height),0.1,1000);
 
-	Vertex_t cubeVertices[]=
-	{
-		{  -1.0f,-1.0f, 1.0f,   0,  0 },
-		{  1.0f,-1.0f, 1.0f,    0,  1 },
-		{  1.0f, 1.0f, 1.0f,    1,  1 },
-		{ -1.0f, 1.0f, 1.0f,    1,  0 },
-	};
+	 Vertex_t cubeVertices[] =
+	        {
+	                {  -1.0f,-1.0f, 1.0f    ,0.3f,  0.3f },
+	                 {  1.0f,-1.0f, 1.0f     ,0.5f,  0.3f },
+	                 {  1.0f, 1.0f, 1.0f     ,0.5f,  0.8f },
+	                 { -1.0f, 1.0f, 1.0f     ,0.3f,  0.8f },
+
+	                 {  -1.0f,-1.0f,-1.0f    ,0,  0 },
+	                 {  -1.0f, 1.0f,-1.0f    ,1,  0 },
+	                 {  1.0f, 1.0f,-1.0f     ,1,  1 },
+	                 {  1.0f,-1.0f,-1.0f     ,0,  1 },
+
+	                 {  -1.0f, 1.0f,-1.0f    ,0,  0 },
+	                 {  -1.0f, 1.0f, 1.0f    ,1,  0 },
+	                 {  1.0f, 1.0f, 1.0f     ,1,  1 },
+	                 {  1.0f, 1.0f,-1.0f     ,0,  1 },
+
+	                 {  -1.0f,-1.0f,-1.0f    ,0,  0 },
+	                 {  1.0f,-1.0f,-1.0f     ,1,  0 },
+	                 {  1.0f,-1.0f, 1.0f     ,1,  1 },
+	                 {  -1.0f,-1.0f, 1.0f    ,0,  1 },
+
+	                 {  1.0f,-1.0f,-1.0f ,0,  0 },
+	                 {  1.0f, 1.0f,-1.0f ,1,  0 },
+	                 {  1.0f, 1.0f, 1.0f ,1,  1 },
+	                 {  1.0f,-1.0f, 1.0f ,0,  1 },
+
+	                 {  -1.0f,-1.0f,-1.0f ,0,  0 },
+	                 {  -1.0f,-1.0f, 1.0f ,1,  0 },
+	                 {  -1.0f, 1.0f, 1.0f ,1,  1 },
+	                 {  -1.0f, 1.0f,-1.0f ,0,  1 },
+
+	        };
 
     glMatrixMode(GL_MODELVIEW);
     glBindTexture(GL_TEXTURE_2D,_texture);
 
 
     glLoadIdentity();
-    glTranslatef(-3,0,-10);
+    glTranslatef(-3,-2,-20);
 
 
     glEnable(GL_DEPTH_TEST);
@@ -122,13 +148,28 @@ void Render()
     glLoadIdentity();
     //! 产生一个矩阵
     glTranslatef(0,0,-10);
-    glDrawArrays( GL_QUADS, 0, 4 );
 
+
+    static  float angle = 0;
+	angle   +=  1;
+	glRotatef(angle,1,0,0);
+	glDrawArrays( GL_QUADS, 0, 24 );
+
+    //! 清成单位矩阵
     glLoadIdentity();
     //! 产生一个矩阵
     glTranslatef(5,0,-10);
+    glRotatef(angle,0,1,0);
     glBindTexture(GL_TEXTURE_2D,_texture1);
-    glDrawArrays( GL_QUADS, 0, 4 );
+    glDrawArrays( GL_QUADS, 0, 24 );
+
+    //! 清成单位矩阵
+    glLoadIdentity();
+    //! 产生一个矩阵
+    glTranslatef(-5,0,-10);
+    glRotatef(angle,0,0,1);
+    glBindTexture(GL_TEXTURE_2D,_texture2);
+    glDrawArrays( GL_QUADS, 0, 24 );
 
 }
 
